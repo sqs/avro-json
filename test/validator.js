@@ -1,0 +1,43 @@
+var Validator = require('../lib/validator.js').Validator;
+
+/*
+  ======== A Handy Little Nodeunit Reference ========
+  https://github.com/caolan/nodeunit
+
+  Test methods:
+    test.expect(numAssertions)
+    test.done()
+  Test assertions:
+    test.ok(value, [message])
+    test.equal(actual, expected, [message])
+    test.notEqual(actual, expected, [message])
+    test.deepEqual(actual, expected, [message])
+    test.notDeepEqual(actual, expected, [message])
+    test.strictEqual(actual, expected, [message])
+    test.notStrictEqual(actual, expected, [message])
+    test.throws(block, [error], [message])
+    test.doesNotThrow(block, [error], [message])
+    test.ifError(value)
+*/
+
+exports['test'] = {
+  setUp: function(done) {
+    done();
+  },
+  'nonexistent/null/undefined': function(test) {
+    test.throws(function() { return new Validator(); });
+    test.throws(function() { return new Validator(null); });
+    test.throws(function() { return new Validator(undefined); });
+    test.done();
+  },
+  'unrecognized primitive type name': function(test) {
+    test.throws(function() { return new Validator('badtype'); });
+    test.done();
+  },
+  'invalid schema javascript type': function(test) {
+    test.throws(function() { return new Validator(123); });
+    test.throws(function() { return new Validator(function() { }); });
+    test.done();
+  }
+
+};
