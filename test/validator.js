@@ -98,5 +98,15 @@ exports['test'] = {
     test.strictEqual(Validator.validate('string', 1), false);
     test.strictEqual(Validator.validate('string', null), false);
     test.done();
+  },
+
+  // Records
+  'empty-record': function(test) {
+    var schema = {type: 'record', name: 'EmptyRecord', fields: []};
+    test.ok(Validator.validate(schema, {}));
+    test.strictEqual(Validator.validate(schema, 1), false);
+    test.strictEqual(Validator.validate(schema, null), false);
+    test.strictEqual(Validator.validate(schema, 'a'), false);
+    test.done();
   }
 };
