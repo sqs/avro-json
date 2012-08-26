@@ -44,48 +44,48 @@ exports['test'] = {
   'null': function(test) {
     test.ok(Validator.validate('null', null));
     test.ok(Validator.validate('null', undefined));
-    test.strictEqual(Validator.validate('null', 1), false);
-    test.strictEqual(Validator.validate('null', 'a'), false);
+    test.throws(function() { Validator.validate('null', 1); });
+    test.throws(function() { Validator.validate('null', 'a'); });
     test.done();
   },
   'boolean': function(test) {
     test.ok(Validator.validate('boolean', true));
     test.ok(Validator.validate('boolean', false));
-    test.strictEqual(Validator.validate('boolean', null), false);
-    test.strictEqual(Validator.validate('boolean', 1), false);
-    test.strictEqual(Validator.validate('boolean', 'a'), false);
+    test.throws(function() { Validator.validate('boolean', null); });
+    test.throws(function() { Validator.validate('boolean', 1); });
+    test.throws(function() { Validator.validate('boolean', 'a'); });
     test.done();
   },
   'int': function(test) {
     test.ok(Validator.validate('int', 1));
     test.ok(Validator.validate('long', Math.pow(2, 31) - 1));
-    test.strictEqual(Validator.validate('int', 1.5), false);
-    test.strictEqual(Validator.validate('int', Math.pow(2, 40)), false);
-    test.strictEqual(Validator.validate('int', null), false);
-    test.strictEqual(Validator.validate('int', 'a'), false);
+    test.throws(function() { Validator.validate('int', 1.5); });
+    test.throws(function() { Validator.validate('int', Math.pow(2, 40)); });
+    test.throws(function() { Validator.validate('int', null); });
+    test.throws(function() { Validator.validate('int', 'a'); });
     test.done();
   },
   'long': function(test) {
     test.ok(Validator.validate('long', 1));
     test.ok(Validator.validate('long', Math.pow(2, 63) - 1));
-    test.strictEqual(Validator.validate('long', 1.5), false);
-    test.strictEqual(Validator.validate('long', Math.pow(2, 70)), false);
-    test.strictEqual(Validator.validate('long', null), false);
-    test.strictEqual(Validator.validate('long', 'a'), false);
+    test.throws(function() { Validator.validate('long', 1.5); });
+    test.throws(function() { Validator.validate('long', Math.pow(2, 70)); });
+    test.throws(function() { Validator.validate('long', null); });
+    test.throws(function() { Validator.validate('long', 'a'); });
     test.done();
   },
   'float': function(test) {
     test.ok(Validator.validate('float', 1));
     test.ok(Validator.validate('float', 1.5));
-    test.strictEqual(Validator.validate('float', 'a'), false);
-    test.strictEqual(Validator.validate('float', null), false);
+    test.throws(function() { Validator.validate('float', 'a'); });
+    test.throws(function() { Validator.validate('float', null); });
     test.done();
   },
   'double': function(test) {
     test.ok(Validator.validate('double', 1));
     test.ok(Validator.validate('double', 1.5));
-    test.strictEqual(Validator.validate('double', 'a'), false);
-    test.strictEqual(Validator.validate('double', null), false);
+    test.throws(function() { Validator.validate('double', 'a'); });
+    test.throws(function() { Validator.validate('double', null); });
     test.done();
   },
   'bytes': function(test) {
@@ -95,8 +95,8 @@ exports['test'] = {
   },
   'string': function(test) {
     test.ok(Validator.validate('string', 'a'));
-    test.strictEqual(Validator.validate('string', 1), false);
-    test.strictEqual(Validator.validate('string', null), false);
+    test.throws(function() { Validator.validate('string', 1); });
+    test.throws(function() { Validator.validate('string', null); });
     test.done();
   },
 
@@ -104,19 +104,20 @@ exports['test'] = {
   'empty-record': function(test) {
     var schema = {type: 'record', name: 'EmptyRecord', fields: []};
     test.ok(Validator.validate(schema, {}));
-    test.strictEqual(Validator.validate(schema, 1), false);
-    test.strictEqual(Validator.validate(schema, null), false);
-    test.strictEqual(Validator.validate(schema, 'a'), false);
+    test.throws(function() { Validator.validate(schema, 1); });
+    test.throws(function() { Validator.validate(schema, null); });
+    test.throws(function() { Validator.validate(schema, 'a'); });
     test.done();
   },
   'record-with-string': function(test) {
     var schema = {type: 'record', name: 'EmptyRecord', fields: [{name: 'stringField', type: 'string'}]};
     test.ok(Validator.validate(schema, {stringField: 'a'}));
-    test.strictEqual(Validator.validate(schema, {}), false);
-    test.strictEqual(Validator.validate(schema, {stringField: 1}), false);
-    test.strictEqual(Validator.validate(schema, {stringField: []}), false);
-    test.strictEqual(Validator.validate(schema, {stringField: {}}), false);
-    test.strictEqual(Validator.validate(schema, {stringField: null}), false);
+    test.throws(function() { Validator.validate(schema, {}); });
+    test.throws(function() { Validator.validate(schema, {stringField: 1}); });
+    test.throws(function() { Validator.validate(schema, {stringField: []}); });
+    test.throws(function() { Validator.validate(schema, {stringField: {}}); });
+    test.throws(function() { Validator.validate(schema, {stringField: null}); });
+    test.throws(function() { Validator.validate(schema, {stringField: 'a', unexpectedField: 'a'}); });
     test.done();
   }
 };
