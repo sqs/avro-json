@@ -108,5 +108,15 @@ exports['test'] = {
     test.strictEqual(Validator.validate(schema, null), false);
     test.strictEqual(Validator.validate(schema, 'a'), false);
     test.done();
+  },
+  'record-with-string': function(test) {
+    var schema = {type: 'record', name: 'EmptyRecord', fields: [{name: 'stringField', type: 'string'}]};
+    test.ok(Validator.validate(schema, {stringField: 'a'}));
+    test.strictEqual(Validator.validate(schema, {}), false);
+    test.strictEqual(Validator.validate(schema, {stringField: 1}), false);
+    test.strictEqual(Validator.validate(schema, {stringField: []}), false);
+    test.strictEqual(Validator.validate(schema, {stringField: {}}), false);
+    test.strictEqual(Validator.validate(schema, {stringField: null}), false);
+    test.done();
   }
 };
