@@ -119,5 +119,14 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, {stringField: null}); });
     test.throws(function() { Validator.validate(schema, {stringField: 'a', unexpectedField: 'a'}); });
     test.done();
+  },
+  'record-with-string-and-number': function(test) {
+    var schema = {type: 'record', name: 'EmptyRecord', fields: [{name: 'stringField', type: 'string'}, {name: 'intField', type: 'int'}]};
+    test.ok(Validator.validate(schema, {stringField: 'a', intField: 1}));
+    test.throws(function() { Validator.validate(schema, {}); });
+    test.throws(function() { Validator.validate(schema, {stringField: 'a'}); });
+    test.throws(function() { Validator.validate(schema, {intField: 1}); });
+    test.throws(function() { Validator.validate(schema, {stringField: 'a', intField: 1, unexpectedField: 'a'}); });
+    test.done();
   }
 };
