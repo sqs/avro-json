@@ -128,5 +128,21 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, {intField: 1}); });
     test.throws(function() { Validator.validate(schema, {stringField: 'a', intField: 1, unexpectedField: 'a'}); });
     test.done();
+  },
+
+  // Enums
+  'enum': function(test) {
+    var schema = {type: 'enum', name: 'Colors', symbols: ['Red', 'Blue']};
+    test.ok(Validator.validate(schema, 'Red'));
+    test.ok(Validator.validate(schema, 'Blue'));
+    test.throws(function() { Validator.validate(schema, null); });
+    test.throws(function() { Validator.validate(schema, undefined); });
+    test.throws(function() { Validator.validate(schema, 'NotAColor'); });
+    test.throws(function() { Validator.validate(schema, ''); });
+    test.throws(function() { Validator.validate(schema, {}); });
+    test.throws(function() { Validator.validate(schema, []); });
+    test.throws(function() { Validator.validate(schema, 1); });
+    test.done();
+  },
   }
 };
