@@ -144,5 +144,18 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, 1); });
     test.done();
   },
+
+  // Unions
+  'union': function(test) {
+    var schema = ['string', 'int'];
+    test.ok(Validator.validate(schema, {string: 'a'}));
+    test.ok(Validator.validate(schema, {int: 1}));
+    test.throws(function() { Validator.validate(schema, null); });
+    test.throws(function() { Validator.validate(schema, undefined); });
+    test.throws(function() { Validator.validate(schema, 'a'); });
+    test.throws(function() { Validator.validate(schema, 1); });
+    test.throws(function() { Validator.validate(schema, {string: 'a', int: 1}); });
+    test.throws(function() { Validator.validate(schema, []); });
+    test.done();
   }
 };
