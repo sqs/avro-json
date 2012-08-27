@@ -200,5 +200,21 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, ["a", 1]); });
     test.throws(function() { Validator.validate(schema, [null, 1]); });
     test.done();
+  },
+
+  // Maps
+  'map': function(test) {
+    var schema = {type: "map", values: "string"};
+    test.ok(Validator.validate(schema, {}));
+    test.ok(Validator.validate(schema, {"a": "b"}));
+    test.ok(Validator.validate(schema, {"a": "b", "c": "d"}));
+    test.throws(function() { Validator.validate(schema, null); });
+    test.throws(function() { Validator.validate(schema, undefined); });
+    test.throws(function() { Validator.validate(schema, 'a'); });
+    test.throws(function() { Validator.validate(schema, 1); });
+    test.throws(function() { Validator.validate(schema, [1]); });
+    test.throws(function() { Validator.validate(schema, {"a": 1}); });
+    test.throws(function() { Validator.validate(schema, {"a": "b", "c": 1}); });
+    test.done();
   }
 };
