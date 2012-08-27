@@ -157,5 +157,27 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, {string: 'a', int: 1}); });
     test.throws(function() { Validator.validate(schema, []); });
     test.done();
+  },
+
+  // Arrays
+  'array': function(test) {
+    var schema = {type: "array", items: "string"};
+    test.ok(Validator.validate(schema, []));
+    test.ok(Validator.validate(schema, ["a"]));
+    test.ok(Validator.validate(schema, ["a", "b", "a"]));
+    test.throws(function() { Validator.validate(schema, null); });
+    test.throws(function() { Validator.validate(schema, undefined); });
+    test.throws(function() { Validator.validate(schema, 'a'); });
+    test.throws(function() { Validator.validate(schema, 1); });
+    test.throws(function() { Validator.validate(schema, {}); });
+    test.throws(function() { Validator.validate(schema, {"1": "a"}); });
+    test.throws(function() { Validator.validate(schema, {1: "a"}); });
+    test.throws(function() { Validator.validate(schema, {1: "a", "b": undefined}); });
+    test.throws(function() { var a = {}; a[0] = "a"; Validator.validate(schema, a); });
+    test.throws(function() { Validator.validate(schema, [1]); });
+    test.throws(function() { Validator.validate(schema, [1, "a"]); });
+    test.throws(function() { Validator.validate(schema, ["a", 1]); });
+    test.throws(function() { Validator.validate(schema, [null, 1]); });
+    test.done();
   }
 };
