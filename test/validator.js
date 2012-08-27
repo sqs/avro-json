@@ -237,5 +237,273 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, {"a": 1}); });
     test.throws(function() { Validator.validate(schema, {"a": "b", "c": 1}); });
     test.done();
+  },
+
+  // Samples
+  'link': function(test) {
+    var schema = {
+      "type" : "record",
+      "name" : "Bundle",
+      "namespace" : "aa.bb.cc",
+      "fields" : [ {
+        "name" : "id",
+        "type" : "string"
+      }, {
+        "name" : "type",
+        "type" : "string"
+      }, {
+        "name" : "data_",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "LinkData",
+          "fields" : [ {
+            "name" : "address",
+            "type" : "string"
+          }, {
+            "name" : "title",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "excerpt",
+            "type" : [ "null", "string" ],
+            "default" : null
+          }, {
+            "name" : "image",
+            "type" : [ "null", {
+              "type" : "record",
+              "name" : "Image",
+              "fields" : [ {
+                "name" : "url",
+                "type" : "string"
+              }, {
+                "name" : "width",
+                "type" : "int"
+              }, {
+                "name" : "height",
+                "type" : "int"
+              } ]
+            } ],
+            "default" : null
+          }, {
+            "name" : "meta",
+            "type" : {
+              "type" : "map",
+              "values" : "string"
+            },
+            "default" : {
+            }
+          } ]
+        } ],
+        "default" : null
+      }, {
+        "name" : "atoms_",
+        "type" : {
+          "type" : "map",
+          "values" : {
+            "type" : "map",
+            "values" : {
+              "type" : "record",
+              "name" : "Atom",
+              "fields" : [ {
+                "name" : "index_",
+                "type" : {
+                  "type" : "record",
+                  "name" : "AtomIndex",
+                  "fields" : [ {
+                    "name" : "type_",
+                    "type" : "string"
+                  }, {
+                    "name" : "id",
+                    "type" : "string"
+                  } ]
+                }
+              }, {
+                "name" : "data_",
+                "type" : [ "LinkData" ]
+              } ]
+            }
+          }
+        },
+        "default" : {
+        }
+      }, {
+        "name" : "meta_",
+        "type" : {
+          "type" : "record",
+          "name" : "BundleMetadata",
+          "fields" : [ {
+            "name" : "date",
+            "type" : "long",
+            "default" : 0
+          }, {
+            "name" : "members",
+            "type" : {
+              "type" : "map",
+              "values" : "string"
+            },
+            "default" : {
+            }
+          }, {
+            "name" : "tags",
+            "type" : {
+              "type" : "map",
+              "values" : "string"
+            },
+            "default" : {
+            }
+          }, {
+            "name" : "meta",
+            "type" : {
+              "type" : "map",
+              "values" : "string"
+            },
+            "default" : {
+            }
+          }, {
+            "name" : "votes",
+            "type" : {
+              "type" : "map",
+              "values" : {
+                "type" : "record",
+                "name" : "VoteData",
+                "fields" : [ {
+                  "name" : "date",
+                  "type" : "long"
+                }, {
+                  "name" : "userName",
+                  "type" : [ "null", "string" ],
+                  "default" : null
+                }, {
+                  "name" : "direction",
+                  "type" : {
+                    "type" : "enum",
+                    "name" : "VoteDirection",
+                    "symbols" : [ "Up", "Down", "None" ]
+                  }
+                } ]
+              }
+            },
+            "default" : {
+            }
+          }, {
+            "name" : "views",
+            "type" : {
+              "type" : "map",
+              "values" : {
+                "type" : "record",
+                "name" : "ViewData",
+                "fields" : [ {
+                  "name" : "userName",
+                  "type" : "string"
+                }, {
+                  "name" : "count",
+                  "type" : "int"
+                } ]
+              }
+            },
+            "default" : {
+            }
+          }, {
+            "name" : "relevance",
+            "type" : {
+              "type" : "map",
+              "values" : "string"
+            },
+            "default" : {
+            }
+          }, {
+            "name" : "clicks",
+            "type" : {
+              "type" : "map",
+              "values" : "string"
+            },
+            "default" : {
+            }
+          } ]
+        }
+      } ]
+    };
+    var okObj = {
+      "id": "https://github.com/sqs/akka-kryo-serialization/subscription",
+      "type": "link",
+      "data_": {
+        "aa.bb.cc.LinkData": {
+          "address": "https://github.com/sqs/akka-kryo-serialization/subscription",
+          "title": {
+            "string": "Sign in · GitHub"
+          },
+          "excerpt": {
+            "string": "Signup and Pricing Explore GitHub Features Blog Sign in Sign in (Pricing and Signup) Username or Email Password (forgot password) GitHub Links GitHub About Blog Feat"
+          },
+          "image": {
+            "aa.bb.cc.Image": {
+              "url": "https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x.png?1340659561",
+              "width": 280,
+              "height": 120
+            }
+          },
+          "meta": {}
+        }
+      },
+      "atoms_": {
+        "link": {
+          "https://github.com/sqs/akka-kryo-serialization/subscription": {
+            "index_": {
+              "type_": "link",
+              "id": "https://github.com/sqs/akka-kryo-serialization/subscription"
+            },
+            "data_": {
+              "aa.bb.cc.LinkData": {
+                "address": "https://github.com/sqs/akka-kryo-serialization/subscription",
+                "title": {
+                  "string": "Sign in · GitHub"
+                },
+                "excerpt": {
+                  "string": "Signup and Pricing Explore GitHub Features Blog Sign in Sign in (Pricing and Signup) Username or Email Password (forgot password) GitHub Links GitHub About Blog Feat"
+                },
+                "image": {
+                  "aa.bb.cc.Image": {
+                    "url": "https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x.png?1340659561",
+                    "width": 280,
+                    "height": 120
+                  }
+                },
+                "meta": {}
+              }
+            }
+          }
+        }
+      },
+      "meta_": {
+        "date": 1345537530000,
+        "members": {
+          "a@a.com": "1"
+        },
+        "tags": {
+          "blue": "1"
+        },
+        "meta": {},
+        "votes": {},
+        "views": {
+          "a@a.com": {
+            "userName": "John Smith",
+            "count": 100
+          }
+        },
+        "relevance": {
+          "a@a.com": "1",
+          "b@b.com": "2"
+        },
+        "clicks": {}
+      }
+    };
+
+    test.ok(Validator.validate(schema, okObj));
+
+    var badObj = okObj; // no deep copy since we won't reuse okObj
+    badObj.meta_.clicks['a@a.com'] = 123;
+    test.throws(function() { Validator.validate(schema, badObj); });
+
+    test.done();
   }
 };
