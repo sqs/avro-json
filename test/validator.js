@@ -129,6 +129,27 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, {stringField: 'a', intField: 1, unexpectedField: 'a'}); });
     test.done();
   },
+  'nested-record-with-namespace-relative': function(test) {
+    var schema = {type: 'record', namespace: 'x.y.z', name: 'RecordA', fields: [{name: 'recordBField1', type: ['null', {type: 'record', name: 'RecordB', fields: []}]}, {name: 'recordBField2', type: 'RecordB'}]};
+    test.ok(Validator.validate(schema, {recordBField1: null, recordBField2: {}}));
+    test.ok(Validator.validate(schema, {recordBField1: {'x.y.z.RecordB': {}}, recordBField2: {}}));
+    test.throws(function() { Validator.validate(schema, {}); });
+    test.throws(function() { Validator.validate(schema, {recordBField1: null}); });
+    test.throws(function() { Validator.validate(schema, {recordBField2: {}}); });
+    test.throws(function() { Validator.validate(schema, {recordBField1: {'RecordB': {}}, recordBField2: {}}); });
+    test.done();
+  },
+  'nested-record-with-namespace-absolute': function(test) {
+    var schema = {type: 'record', namespace: 'x.y.z', name: 'RecordA', fields: [{name: 'recordBField1', type: ['null', {type: 'record', name: 'RecordB', fields: []}]}, {name: 'recordBField2', type: 'x.y.z.RecordB'}]};
+    test.ok(Validator.validate(schema, {recordBField1: null, recordBField2: {}}));
+    test.ok(Validator.validate(schema, {recordBField1: {'x.y.z.RecordB': {}}, recordBField2: {}}));
+    test.throws(function() { Validator.validate(schema, {}); });
+    test.throws(function() { Validator.validate(schema, {recordBField1: null}); });
+    test.throws(function() { Validator.validate(schema, {recordBField2: {}}); });
+    test.throws(function() { Validator.validate(schema, {recordBField1: {'RecordB': {}}, recordBField2: {}}); });
+    test.done();
+  },
+
 
   // Enums
   'enum': function(test) {
