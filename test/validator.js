@@ -1,4 +1,6 @@
-var Validator = require('../lib/validator.js').Validator;
+var validator = require('../lib/validator.js');
+var Validator = validator.Validator;
+var ProtocolValidator = validator.ProtocolValidator;
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -237,6 +239,25 @@ exports['test'] = {
     test.throws(function() { Validator.validate(schema, {"a": 1}); });
     test.throws(function() { Validator.validate(schema, {"a": "b", "c": 1}); });
     test.done();
+  },
+
+  // Protocols
+  'protocol': function(test) {
+    var protocol = {protocol: "Protocol1", namespace: "x.y.z", types: [
+      {type: "record", name: "RecordA", fields: []},
+      {type: "record", name: "RecordB", fields: [{name: "recordAField", type: "RecordA"}]}
+    ]};
+    test.ok(ProtocolValidator.validate(protocol, 'RecordA', {}));
+    test.ok(ProtocolValidator.validate(protocol, 'x.y.z.RecordA', {}));
+    test.ok(ProtocolValidator.validate(protocol, 'RecordB', {recordAField: {}}));
+    test.ok(ProtocolValidator.validate(protocol, 'x.y.z.RecordB', {recordAField: {}}));
+    test.throws(function() { ProtocolValidator.validate(protocol, 'RecordDoesNotExist', {}); });
+    test.throws(function() { ProtocolValidator.validate(protocol, 'RecordDoesNotExist', null); });
+    test.throws(function() { ProtocolValidator.validate(protocol, 'RecordB', {}); });
+    test.throws(function() { ProtocolValidator.validate(protocol, null, {}); });
+    test.throws(function() { ProtocolValidator.validate(protocol, '', {}); });
+    test.throws(function() { ProtocolValidator.validate(protocol, {}, {}); });
+    test.done();    
   },
 
   // Samples
