@@ -1,0 +1,34 @@
+{
+  "name": "avro-json",
+  "version": "0.0.1",
+  "author": "Quinn Slack <sqs@cs.stanford.edu>",
+  "description": "Avro JSON validator",
+  "contributors": [ 
+    {
+      "name": "Quinn Slack",
+      "email": "sqs@cs.stanford.edu"
+    } 
+  ],
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sqs/avro-json.git"
+  },
+  "keywords": [
+    "avro",
+    "json"
+  ],
+  "dependencies" : {
+    "underscore"   :  "*"
+  },
+  "devDependencies" : {
+    "grunt"        :  "*"
+  },
+  "noAnalyze": true,
+  "license": "BSD",
+  "engine": {
+    "node": ">=0.4"
+  }
+}
